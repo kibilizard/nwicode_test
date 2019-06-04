@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Simple messages</title>
+        <script src = "https://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+        <script src = "./src/app/main.js"></script>
+        <script src = "./src/app/main_controller.js"></script>
+        <script src="https://unpkg.com/@ionic/core@latest/dist/ionic.js"></script>
+        <link href="https://unpkg.com/@ionic/core@latest/css/ionic.bundle.css" rel="stylesheet">
+        <style>
+            input,textarea {
+                width:100%;
+                border: 1px solid lightgray;
+                border-radius: 5px;
+            }
+            input.ng-invalid.ng-dirty, textarea.ng-invalid.ng-dirty{
+                border-color: red;
+            }
+            button {
+                color:white;
+                text-transform: uppercase;
+                background-color: #10dc60;
+                border-radius: 5px;
+                padding: 10px 15px;
+            }
+            button:active{
+                background-color: #0ec254;
+            }
+            
+        </style>
+   </head>
+   <body>
+       <ion-app ng-app = "myapp">
+           <ion-header>
+               <ion-toolbar>
+                   <ion-title>Simple messages</ion-title>
+               </ion-toolbar>
+           </ion-header>
+           <ion-content ng-controller = "simpleController">
+               <ion-grid>
+                    <ion-row>
+                        <ion-col size-md="6" offset-md="3">
+                            <ion-card>
+                                <ion-card-title padding>Отправьте сообщение:</ion-card-title>
+                                <ion-card-content>
+                                    <ion-grid>
+                                        <form name="simpleForm" novalidate>
+                                            <ion-row>
+                                                <ion-col size-md="2">
+                                                    <label>
+                                                        Имя автора:
+                                                    </label>
+                                                </ion-col>
+                                                <ion-col>    
+                                                    <input name="author" type="text" ng-model="post.author" required></input> 
+                                                    <span style="color:red" ng-show = "simpleForm.author.$dirty && simpleForm.author.$invalid">
+                                                        <span ng-show = "simpleForm.author.$error.required">Введите ваше имя!</span>
+                                                    </span>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ion-col size-md="2">
+                                                    <label>
+                                                        Заголовок: 
+                                                    </label>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <input name="title" type="text" ng-model="post.title" required></input>
+                                                    <span style="color:red" ng-show = "simpleForm.title.$dirty && simpleForm.title.$invalid">
+                                                        <span ng-show = "simpleForm.title.$error.required">Введите заголовок сообщения!</span>
+                                                    </span>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ion-col size-md="2">
+                                                    <label>
+                                                        Сообщение: 
+                                                    </label>
+                                                </ion-col>
+                                                <ion-col>
+                                                    <textarea name="content" type="text" ng-model="post.content" required></textarea>
+                                                    <span style="color:red" ng-show = "simpleForm.content.$dirty && simpleForm.content.$invalid">
+                                                        <span ng-show = "simpleForm.content.$error.required">Введите текст сообщения!</span>
+                                                    </span>
+                                                </ion-col>
+                                            </ion-row>
+                                            <ion-row>
+                                                <ion-col>
+                                                    <button type="button" ng-click="send()" ng-disabled="simpleForm.$pristine || (simpleForm.$dirty && simpleForm.$invalid)">Отправить</button>
+                                                </ion-col>
+                                            </ion-row>
+                                        </form>
+                                    </ion-grid>
+                                </ion-card-content>
+                            </ion-card>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+               
+               <ion-grid>
+                    <ion-row>
+                        <ion-col size-md="6" offset-md="3">
+                            <ion-list ng-if="posts.length > 0">
+                                <ion-item ng-repeat="post in posts">
+                                    <ion-label text-wrap>
+                                        <ion-text>
+                                            <h3>{{post.author}}: <strong>{{post.title}}</strong></h3>
+                                        </ion-text>
+                                        <p>{{post.content}}</p>
+                                    </ion-label>
+                                </ion-item>
+                            </ion-list>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+           </ion-content>
+       </ion-app>
+    </body>
+</html>
